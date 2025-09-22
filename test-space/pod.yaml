@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-k8s-pod
+  namespace: test-space
+  labels:
+    app: hello-k8s
+spec:
+  containers:
+    - name: hello-app
+      image: mannygiron0/hello-k8s:latest
+      ports:
+        - containerPort: 5000
+      resources:
+        requests:
+          memory: "64Mi"
+          cpu: "250m"
+        limits:
+          memory: "128Mi"
+          cpu: "500m"
+    - name: log-sidecar
+      image: busybox
+      command: ["/bin/sh", "-c"]
+      args:
+        ["while true; do echo '--- Logs from hello-app ---'; sleep 10; done"]
+      resources:
+        requests:
+          memory: "32Mi"
+          cpu: "100m"
+        limits:
+          memory: "64Mi"
+          cpu: "200m"

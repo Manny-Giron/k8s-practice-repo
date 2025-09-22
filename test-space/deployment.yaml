@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-k8s-deployment
+  namespace: test-space
+  labels:
+    app: hello-k8s
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hello-k8s
+  template:
+    metadata:
+      labels:
+        app: hello-k8s
+    spec:
+      containers:
+        - name: hello-app
+          image: mannygiron0/hello-k8s:latest
+          ports:
+            - containerPort: 5000
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
+        - name: log-sidecar
+          image: busybox
+          command: ["/bin/sh", "-c"]
+          args:
+            [
+              "while true; do echo '--- Logs from hello-app ---'; sleep 10; done",
+            ]
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "100m"
+              memory: "128Mi"
