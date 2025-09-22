@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: hello-app
-          image: mannygiron/hello-k8s:v2
+          image: mannygiron0/hello-k8s:v2
           ports:
             - containerPort: 5000
           resources:
